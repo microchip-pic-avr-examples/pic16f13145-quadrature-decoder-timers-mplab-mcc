@@ -49,7 +49,7 @@ To program the Curiosity Nano board with this MPLAB X project, follow the steps 
 
 ## Concept
 
-This application showcases the capabilities of the CLB peripheral by creating a logic circuit that decodes the waveforms from a rotary encoder. Each time a clockwise or counterclockwise condition is detected, one clock cycle pulse is generated on the corresponding output line (clockwise or counterclockwise). The output signals are routed as clock sources for TMR0 and TMR1, the timers being used to count the ticks. The total numbers of encoder increments is obtained by subtracting the values read from timers.
+This application showcases the capabilities of the CLB peripheral by creating a logic circuit that decodes the waveforms from a rotary encoder. Each time a clockwise or counterclockwise condition is detected, one clock cycle pulse is generated on the corresponding output line (clockwise or counterclockwise). The output signals are routed as clock sources for TMR0 and TMR1, the timers being used to count the ticks. The total numbers of encoder increments is obtained by subtracting the values read from timers. By using timers as counters to store the rotation information, the CPU does not need to monitor the decoder signal and can simply calculate the total rotation since its last check when a new rotation value is needed.
 The decoder circuit implementation is figured in the picture below:
 
 <br><img src="images/clb_full_circuit.png" width="800">
@@ -180,13 +180,13 @@ Below is presented a logic analyzer capture that contains the waveforms correspo
 
 <br><img src="./images/demo.png" width="800">
 
-**Note:** Follow the steps in the [How to use MPLAB® Data Visualizer](#how-to-use-mplab®-data-visualizer-tbd) section to set up the Data Visualizer so that it can correctly show the text messages through UART1.
+**Note:** Follow the steps in the [How to use MPLAB® Data Visualizer](#how-to-use-mplab®-data-visualizer) section to set up the Data Visualizer so that it can correctly show the text messages through UART1.
 
 ## Summary
 
 This application showcases how to create a quadrature decoder circuit that can detect and count clockwise and counterclockwise pulses on rising and falling edges of the quadrature signals using the CLB peripheral.
 
-## How to use MPLAB® Data Visualizer [#TBD]
+## How to use MPLAB® Data Visualizer
 
 This section illustrates how to use the MPLAB® X Data Visualizer. This can be applied to any other projects.
 
@@ -204,7 +204,7 @@ This section illustrates how to use the MPLAB® X Data Visualizer. This can be a
 5. Press **Start streaming COMx button**. The text messages will appear in the **Terminal** tab.
    <br><img src="./images/data_visualizer_setup.png" width="800">
 
-## How to Program the Curiosity Nano Board [#TBD]
+## How to Program the Curiosity Nano Board
 
 This chapter demonstrates how to use the MPLAB X IDE to program a PIC® device with an Example_Project.X. This is applicable to other projects.
 
@@ -240,6 +240,6 @@ This chapter demonstrates how to use the MPLAB X IDE to program a PIC® device w
 - [Back to Setup](#setup)
 - [Back to Demo](#demo)
 - [Back to Summary](#summary)
-- [Back to How to use MPLAB® Data Visualizer](#how-to-use-mplab®-data-visualizer-tbd)
-- [Back to How to Program the Curiosity Nano Board](#how-to-program-the-curiosity-nano-board-tbd)
+- [Back to How to use MPLAB® Data Visualizer](#how-to-use-mplab®-data-visualizer)
+- [Back to How to Program the Curiosity Nano Board](#how-to-program-the-curiosity-nano-board)
 - [Back to Top](#quadrature-decoder--use-case-for-configurable-logic-block-clb-using-the-pic16f13145-microcontroller-with-mcc-melody)
