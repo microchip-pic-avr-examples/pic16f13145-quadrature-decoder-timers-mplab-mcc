@@ -33,48 +33,46 @@
 
 #include "mcc_generated_files/system/system.h"
 
-void countTicks(uint16_t CW_ticks, uint16_t CCW_ticks);
+#define RESET_TMR0_TMR1() do{TMR0_Write(0); TMR1_Write(0);}while(0);
+
+void TMR2_Overflow_Handler(void);
+int16_t countTicks(void);
+
+volatile bool overflow_flag = false;
 
 int main(void)
-{   
-    uint16_t CW_pulses = 0; 
-    uint16_t CCW_pulses = 0;
-    
+{    
     SYSTEM_Initialize();
     
-    TMR0_Write(0);
-    TMR1_Write(0);
-    
+    INTERRUPT_GlobalInterruptEnable(); 
+    INTERRUPT_PeripheralInterruptEnable();  
+    TMR2_OverflowCallbackRegister(TMR2_Overflow_Handler);
+    RESET_TMR0_TMR1();
+   
     while(1)
     {
-        CW_pulses = TMR0_Read();
-        CCW_pulses = TMR1_Read();
-            
-        countTicks(CW_pulses, CCW_pulses);
+        if(overflow_flag == true)
+        {
+            printf("%d ticks\r\n", countTicks());
+            overflow_flag = false;
+        }
     }    
 }
 
-void countTicks(uint16_t CW_ticks, uint16_t CCW_ticks)
+void TMR2_Overflow_Handler(void)
 {
-    static int16_t value;
-    static int16_t old_value;
+    overflow_flag = true;
+}
+
+int16_t countTicks(void)
+{
+    uint16_t CW_pulses = 0; 
+    uint16_t CCW_pulses = 0;
+    int16_t result;
     
-    old_value = value; 
-    value = (int16_t)CW_ticks -  (int16_t)CCW_ticks;
-    
-    if(value != old_value)
-    {
-        if(value > 0)
-        {
-            printf("%d CW ticks\r\n", value);
-        }
-        else if(value < 0)
-        {
-            printf("%d CCW ticks\r\n", -value);
-        }
-        else
-        {
-            printf("%d ticks\r\n", value);
-        }
-    }
+    CW_pulses = TMR0_Read();
+    CCW_pulses = TMR1_Read();
+    result = (int16_t)CW_pulses -  (int16_t)CCW_pulses;  
+    RESET_TMR0_TMR1();
+    return result;
 }

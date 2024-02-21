@@ -24,9 +24,9 @@ More details and code examples on the PIC16F13145 can be found at the following 
 
 ## Software Used
 
-- [MPLAB X IDE v6.15 or newer](https://www.microchip.com/en-us/tools-resources/develop/mplab-x-ide?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_Apps_PIC16F13145&utm_content=pic16f13145-quadrature-decoder-timers-mplab-mcc&utm_bu=MCU08)
-- [MPLAB® XC8 v2.45 or newer](https://www.microchip.com/en-us/tools-resources/develop/mplab-xc-compilers?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_Apps_PIC16F13145&utm_content=pic16f13145-quadrature-decoder-timers-mplab-mcc&utm_bu=MCU08)
-- [PIC16F1xxxx_DFP v1.23.382 or newer](https://packs.download.microchip.com/)
+- [MPLAB X IDE v6.20 or newer](https://www.microchip.com/en-us/tools-resources/develop/mplab-x-ide?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_Apps_PIC16F13145&utm_content=pic16f13145-quadrature-decoder-timers-mplab-mcc&utm_bu=MCU08)
+- [MPLAB® XC8 v2.46 or newer](https://www.microchip.com/en-us/tools-resources/develop/mplab-xc-compilers?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_Apps_PIC16F13145&utm_content=pic16f13145-quadrature-decoder-timers-mplab-mcc&utm_bu=MCU08)
+- [PIC16F1xxxx_DFP v1.24.387 or newer](https://packs.download.microchip.com/)
 
 ## Hardware Used
 
@@ -122,7 +122,7 @@ The following peripheral and clock configurations are set up using MPLAB® Code 
 6. TMR0:
 
    - Enable Timer: Enabled
-   - Timer Mode: 8-bit
+   - Timer Mode: 16-bit
    - Clock Source: CLB_BLE
      <br><img src="images/mcc_tmr0.png" width="400">
 
@@ -136,22 +136,34 @@ The following peripheral and clock configurations are set up using MPLAB® Code 
 
      **Note:** The clock source is indicated in the notification tab after synthesizing the CLB circuit.
 
-8. UART1:
+8. TMR2:
+
+   - Enable Timer: Enabled
+   - Clock Source: LFINTOSC
+   - Prescaler: 1:32
+   - Postscaler: 1:16
+   - Timer Period (s): 2
+   - TMR Interrupt Enable: Enabled
+     <br><img src="images/mcc_tmr2.png" width="400">
+
+     **Note:** The TMR2 module is used to create a 2 second interrupt.
+
+9. UART1:
 
    - Requested Baudrate: 115200
    - Data Size: 8
    - Redirect Printf to UART: Enabled
      <br><img src="images/mcc_uart1.png" width="400">
 
-9. Pin Grid View:
+10. Pin Grid View:
 
-   - EUSART1 TX: RB7
-   - EUSART1 RX: RB5
-   - CLBPPSOUT0: RC0 (CW)
-   - CLBPPSOUT2: RC1 (CCW)
-   - CLBIN0PPS: RA2 (phase A)
-   - CLBIN1PPS: RC7 (phase B)
-     <br><img src="images/mcc_pin_grid_view.png" width="600">
+- EUSART1 TX: RC4
+- EUSART1 RX: RC5
+- CLBPPSOUT0: RC0 (CW)
+- CLBPPSOUT2: RC1 (CCW)
+- CLBIN0PPS: RA2 (phase A)
+- CLBIN1PPS: RC7 (phase B)
+  <br><img src="images/mcc_pin_grid_view.png" width="600">
 
 The following pin configurations must be made for this project:
 
@@ -159,10 +171,10 @@ The following pin configurations must be made for this project:
 | :-: | :-----------: | :-------------: |
 | RA2 |     Input     | Encoder Phase A |
 | RC7 |     Input     | Encoder Phase B |
-| RB5 |    Output     |   EUSART1 TX    |
-| RB7 |     Input     |   EUSART1 RX    |
 | RC0 |    Output     |  CW detection   |
 | RC1 |    Output     |  CCW detection  |
+| RC4 |    Output     |   EUSART1 TX    |
+| RC5 |     Input     |   EUSART1 RX    |
 
 <br>
 
@@ -172,12 +184,11 @@ The setup for the demo is presented in the diagram below.
 
 <br><img src="./images/quadrature-schematic.png" width="800">
 
-In this demo, everytime a clockwise or counterclockwise pulse is detected a message is printed on the serial terminal.
+In this demo, the total number of pulses detected over 2 seconds is printed on the serial terminal.
 
 <br><img src="./images/data_visualizer_2.png" width="800">
 
-Below is presented a logic analyzer capture that contains the waveforms corresponding to the messages sent to the terminal in the figure above.
-
+Below is presented a logic analyzer capture that contains the rotary encoder waveforms and the detected pulses.
 <br><img src="./images/demo.png" width="800">
 
 **Note:** Follow the steps in the [How to use MPLAB® Data Visualizer](#how-to-use-mplab®-data-visualizer) section to set up the Data Visualizer so that it can correctly show the text messages through UART1.

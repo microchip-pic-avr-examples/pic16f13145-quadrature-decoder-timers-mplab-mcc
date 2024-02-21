@@ -46,6 +46,7 @@
 #include "../nvm/nvm.h"
 #include "../timer/tmr0.h"
 #include "../timer/tmr1.h"
+#include "../timer/tmr2.h"
 #include "../system/interrupt.h"
 
 /**
